@@ -1,0 +1,6 @@
+com/auth/app/rest/AuthResource.class
+com/auth/app/config/ApplicationConfig.class
+com/auth/app/service/FirebaseInitializer.class
+com/auth/app/rest/UserResource.class
+com/auth/app/service/AuthenticationService.class
+com/auth/app/model/UserInfo.class
