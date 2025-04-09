@@ -37,18 +37,18 @@
     </div>
 
     <!-- Firebase Scripts -->
-    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
 
     <script>
         // Firebase configuration (same as in index.html)
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyDwPywzcG4ULoy5CWCB3_WTsQnYWo8ygxQ",
+            authDomain: "fir-4ad12.firebaseapp.com",
+            projectId: "fir-4ad12",
+            storageBucket: "fir-4ad12.firebasestorage.app",
+            messagingSenderId: "197593563134",
+            appId: "1:197593563134:web:9aed88a071e83f98c18aaf"
         };
 
         // Initialize Firebase
@@ -63,19 +63,28 @@
 
             try {
                 const idToken = await user.getIdToken();
-                const response = await fetch('/api/user/info', {
+                const response = await fetch('https://2lttfn-8000.csb.app/api/user/info', {
                     headers: {
                         'Authorization': `Bearer ${idToken}`
                     }
                 });
 
                 if (!response.ok) {
-                    throw new Error('Failed to fetch user info');
+                    throw new Error(`Failed to fetch user info: ${response.status}`);
                 }
 
                 const data = await response.json();
-                document.getElementById('phoneNumber').textContent = data.phoneNumber;
-                document.getElementById('serverTime').textContent = data.serverTime;
+                if (data.phoneNumber) {
+                    document.getElementById('phoneNumber').textContent = data.phoneNumber;
+                } else {
+                    document.getElementById('phoneNumber').textContent = user.phoneNumber || 'Not available';
+                }
+                
+                if (data.serverTime) {
+                    document.getElementById('serverTime').textContent = data.serverTime;
+                } else {
+                    document.getElementById('serverTime').textContent = new Date().toLocaleString();
+                }
             } catch (error) {
                 console.error('Error fetching user info:', error);
                 alert('Error loading user information');
